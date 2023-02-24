@@ -53,8 +53,10 @@
         "Temp/":true
     },
     "cSpell.words": [
+        "cooldown",
         "mathf",
         "raycast",
+        "raycasts",
         "rigidbody",
         "Scriptable"
     ]

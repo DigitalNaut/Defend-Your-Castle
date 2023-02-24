@@ -115,8 +115,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 1
-        functionName: AnimationEnded
+      - time: 0.5811966
+        functionName: AnimationEvent
         data: Attack
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -181,7 +181,7 @@ ModelImporter:
       curves: []
       events:
       - time: 1
-        functionName: AnimationEnded
+        functionName: AnimationEvent
         data: Death
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

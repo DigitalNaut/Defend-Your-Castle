@@ -11,14 +11,12 @@ GameObject:
   - component: {fileID: 634975975069368623}
   - component: {fileID: 634975975069368617}
   - component: {fileID: 634975975069368622}
+  - component: {fileID: 8903270985257364099}
   - component: {fileID: 5752268576741006946}
+  - component: {fileID: 7687288695622909442}
   - component: {fileID: 6481829229709472263}
-  - component: {fileID: 8644786004710383507}
-  - component: {fileID: 6563693400740776679}
-  - component: {fileID: 342083828001861072}
-  - component: {fileID: -4507876379159717858}
-  - component: {fileID: 9158102434314210304}
-  m_Layer: 6
+  - component: {fileID: 6545182215271217109}
+  m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,6 +90,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 114
   m_CollisionDetection: 0
+--- !u!114 &8903270985257364099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634975975069368608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4434540b27657244299038c95c01a7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5752268576741006946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,14 +114,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62461998d6168dc4686b072a2c4a1855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackAnimationEndMessage: Attack
-  deathAnimationEndMessage: Death
-  OnAttackAnimationEnd:
+  OnAnimationEvent:
     m_PersistentCalls:
       m_Calls: []
-  OnDeathAnimationEnd:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &7687288695622909442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634975975069368608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5afafefc5f72cb49a27d6b6b850daa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugging: 1
+  unitProperties: {fileID: 11400000, guid: 91d0e762b80fe8b49a37a6cca80c3815, type: 2}
+  combatStatsRef: {fileID: 11400000, guid: ae86ec06526c53a4c9add06f25454a3f, type: 2}
 --- !u!114 &6481829229709472263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,97 +146,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugging: 1
   distance: 2
+  interval: 0.1
   layerMask:
     serializedVersion: 2
     m_Bits: 64
   OnHasObstacle:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -4507876379159717858}
-        m_TargetAssemblyTypeName: CombatBehavior, Assembly-CSharp
-        m_MethodName: Attack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &8644786004710383507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634975975069368608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de9aabbd2fbf354091f4667b1be8daa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debug: 0
-  time: 300
-  startOnAwake: 1
-  loop: 1
-  onTimerEnd:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6481829229709472263}
-        m_TargetAssemblyTypeName: SpatialAwarenessManager, Assembly-CSharp
-        m_MethodName: CheckForward
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6563693400740776679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634975975069368608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc910568c8100d468f25fb7b6a30e2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 5142210707241974097}
-  animationObserver: {fileID: 8329188894120350202}
---- !u!114 &342083828001861072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634975975069368608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8108c36ea8cab284d86b8ffe80d390dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velocity: 1
---- !u!114 &-4507876379159717858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634975975069368608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a822ecd40c0a240a03d4ebd3247ebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debugging: 1
-  combatStatsRef: {fileID: 11400000, guid: ae86ec06526c53a4c9add06f25454a3f, type: 2}
---- !u!114 &9158102434314210304
+      m_Calls: []
+--- !u!114 &6545182215271217109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae36f2aebd6bbc4996a4959c70e3f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarRef: {fileID: 3895034103822744671}
+  _healthBarRef: {fileID: 3895034103822744671}
 --- !u!1 &777653477956983417
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,10 +619,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8329188894120350202}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23a6748a5236f0946be2741d192df2aa,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7645686540888524250}
   m_SourcePrefab: {fileID: 100100000, guid: 23a6748a5236f0946be2741d192df2aa, type: 3}
 --- !u!4 &4834874209124613001 stripped
 Transform:
@@ -731,23 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62461998d6168dc4686b072a2c4a1855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackAnimationEndMessage: Attack
-  deathAnimationEndMessage: Death
-  OnAttackAnimationEnd:
+  OnAnimationEvent:
     m_PersistentCalls:
       m_Calls: []
-  OnDeathAnimationEnd:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &7645686540888524250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5211576085801705779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4434540b27657244299038c95c01a7ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

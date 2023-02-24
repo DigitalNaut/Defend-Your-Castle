@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.Events;
-using CombatSystem;
+using Unit.CombatSystem;
+using System;
 
 [CreateAssetMenu(fileName = "UnitCombatStats", menuName = "Units/CombatStats", order = 1)]
 public class CombatStats : ScriptableObject
@@ -8,11 +8,12 @@ public class CombatStats : ScriptableObject
   /// <summary>
   /// Events fired when the unit takes damage or dies.
   /// </summary>
-  public UnityEvent OnDamageTaken;
+  private event Action OnDamageTaken;
   /// <summary>
   /// Events fired when the unit takes damage or dies.
   /// </summary>
-  public UnityEvent OnDeath;
+  private event Action OnDeath;
+  private event Action OnHealthChanged;
 
   /// <summary>
   /// The type of combat the unit is capable of.
@@ -42,6 +43,14 @@ public class CombatStats : ScriptableObject
   /// </summary>
   public bool IsDead => CurrentHealth <= 0;
 
+  // Event subscriptions
+  public void SubscribeToDamageTaken(Action action) => OnDamageTaken += action;
+  public void SubscribeToDeath(Action action) => OnDeath += action;
+  public void UnsubscribeFromDamageTaken(Action action) => OnDamageTaken -= action;
+  public void UnsubscribeFromDeath(Action action) => OnDeath -= action;
+  public void SubscribeToHealthChanged(Action action) => OnHealthChanged += action;
+  public void UnsubscribeFromHealthChanged(Action action) => OnHealthChanged -= action;
+
   /// <summary>
   /// Reduces the unit's health by the specified amount.
   /// Prevents the unit's health from going below 0.
@@ -49,11 +58,17 @@ public class CombatStats : ScriptableObject
   /// </summary>
   public void TakeDamage(float damage)
   {
+    if (CurrentHealth <= 0) { return; }
+
     CurrentHealth -= damage;
 
-    // if (damage > 0) { OnDamageTaken?.Invoke(); }
+    if (damage > 0)
+    {
+      OnHealthChanged?.Invoke();
+      OnDamageTaken?.Invoke();
+    }
 
-    if (CurrentHealth > 0) return;
+    if (CurrentHealth > 0) { return; }
 
     CurrentHealth = 0;
     OnDeath?.Invoke();
@@ -61,7 +76,8 @@ public class CombatStats : ScriptableObject
 
   public void OnDestroy()
   {
-    OnDamageTaken.RemoveAllListeners();
-    OnDeath.RemoveAllListeners();
+    OnDamageTaken = null;
+    OnHealthChanged = null;
+    OnDeath = null;
   }
 }

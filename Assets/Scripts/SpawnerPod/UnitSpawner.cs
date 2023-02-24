@@ -1,14 +1,13 @@
 
 using UnityEngine;
 using NaughtyAttributes;
-using CombatSystem;
+using Unit.CombatSystem;
 using System;
 
 [RequireComponent(typeof(MeshRenderer))]
 [DisallowMultipleComponent]
 public class UnitSpawner : MonoBehaviour
 {
-  #region Fields
   [Tooltip("The unit prefab to spawn.")]
   [ShowAssetPreview][SerializeField] GameObject unitPrefabRef;
   [Tooltip("The offset of the unit's position from the spawner pod's position.")]
@@ -19,9 +18,7 @@ public class UnitSpawner : MonoBehaviour
   [SerializeField] Color blockedColor = Color.red;
   [Tooltip("The color of the spawner pod when the unit can be spawned.")]
   [SerializeField] Color readyColor = Color.green;
-  #endregion
 
-  #region Fields
   private MeshRenderer meshRenderer;
   private Vector3 UnitColliderExtents;
   private CapsuleCollider UnitCollider;
@@ -29,9 +26,7 @@ public class UnitSpawner : MonoBehaviour
   private Vector3 UnitPosition => transform.position + new Vector3(0, vOffset, 0);
   private Vector3 UnitCenter => UnitPosition + Vector3.up * UnitColliderExtents.y;
   private Quaternion UnitRotation => transform.rotation;
-  #endregion
 
-  #region Component Preparation
   /// <summary>
   /// Evaluates the unit's collider bounds.
   /// </summary>
@@ -59,16 +54,14 @@ public class UnitSpawner : MonoBehaviour
     UnitColliderExtents = EvaluateColliderExtents();
     if (UnitColliderExtents == Vector3.zero) throw new Exception("The capsule collider's bounds are zero.");
   }
-  #endregion
 
-  #region Methods
   /// <summary>
   /// Spawns a unit at the spawner pod's position if the space is free.
   /// </summary>
   [Button]
   public void SpawnUnit()
   {
-    var isSpaceFree = EvaluateFreeSpace();
+    var isSpaceFree = CheckFreeSpace();
 
     ChangePodColor(isSpaceFree ? readyColor : blockedColor);
 
@@ -81,18 +74,18 @@ public class UnitSpawner : MonoBehaviour
 
   private void ConfigureUnit(GameObject unit)
   {
-    var combatBehavior = unit.GetComponent<CombatBehavior>();
-    if (!combatBehavior) throw new Exception("No unit controller found on the unit prefab.");
+    var unitProperties = unit.GetComponent<UnitPropertiesManager>();
+    if (!unitProperties) throw new Exception("No unit controller found on the unit prefab.");
 
     unit.name = $"{faction} {unit.name}";
-    combatBehavior.SetFaction(faction);
+    unitProperties.SetUnitFaction(faction);
   }
 
   /// <summary>
   /// Evaluates the free space at the spawner pod's position.
   /// </summary>
   /// <returns>True if the space is free, false otherwise.</returns>
-  private bool EvaluateFreeSpace()
+  private bool CheckFreeSpace()
   {
     var collider = new Collider[1];
     var collision = Physics.OverlapBoxNonAlloc(UnitCenter, UnitColliderExtents, collider, UnitRotation);
@@ -106,15 +99,11 @@ public class UnitSpawner : MonoBehaviour
   /// </summary>
   /// <param name="color">The color to change to.</param>
   private void ChangePodColor(Color color) => meshRenderer.material.color = color;
-  #endregion
 
-  #region Unity Methods
   private void OnValidate() => CacheAndEvaluate();
 
   private void Awake() => CacheAndEvaluate();
-  #endregion
 
-  #region Gizmos
   public void OnDrawGizmos()
   {
     CacheAndEvaluate();
@@ -131,5 +120,4 @@ public class UnitSpawner : MonoBehaviour
     Gizmos.color = Color.green;
     Gizmos.DrawWireSphere(UnitCenter, 0.1f);
   }
-  #endregion
 }

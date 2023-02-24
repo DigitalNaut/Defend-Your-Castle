@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(SpatialAwarenessManager))]
+[RequireComponent(typeof(SpatialDetector))]
 [DisallowMultipleComponent]
 public class GroundOnAwake : MonoBehaviour
 {
