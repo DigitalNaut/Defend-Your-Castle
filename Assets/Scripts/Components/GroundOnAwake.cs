@@ -6,12 +6,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class GroundOnAwake : MonoBehaviour
 {
-  #region Fields
   new private Collider collider;
   private float height;
-  #endregion
 
-  #region Methods
   /// <summary>
   /// Caches the components on the object.
   /// </summary>
@@ -44,13 +41,10 @@ public class GroundOnAwake : MonoBehaviour
     if (groundPoint != transform.position)
       transform.position = groundPoint + Vector3.up * height;
   }
-  #endregion
 
-  #region Unity Methods
   private void Awake()
   {
     CacheComponents();
     PlaceOnGround();
   }
-  #endregion
 }

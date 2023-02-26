@@ -49,11 +49,11 @@ public class IdleState : StateMachineBehaviour, IManaged
   {
     CacheComponents(animator);
 
-    SpatialDetector.StartCheckingObstacleOnInterval(HandleObstacleCheck, 0.3f, "IdleState");
+    SpatialDetector.StartCheckingObstacleOnInterval(HandleObstacleCheck, 1f);
   }
 
   public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
   {
-    SpatialDetector.StopCheckingObstacleOnInterval(HandleObstacleCheck, "IdleState");
+    SpatialDetector.StopCheckingObstacleOnInterval(HandleObstacleCheck);
   }
 }

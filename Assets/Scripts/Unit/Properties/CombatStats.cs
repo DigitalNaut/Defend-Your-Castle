@@ -58,7 +58,7 @@ public class CombatStats : ScriptableObject
   /// </summary>
   public void TakeDamage(float damage)
   {
-    if (CurrentHealth <= 0) { return; }
+    if (CurrentHealth <= 0) return;
 
     CurrentHealth -= damage;
 
@@ -68,7 +68,7 @@ public class CombatStats : ScriptableObject
       OnDamageTaken?.Invoke();
     }
 
-    if (CurrentHealth > 0) { return; }
+    if (CurrentHealth > 0) return;
 
     CurrentHealth = 0;
     OnDeath?.Invoke();

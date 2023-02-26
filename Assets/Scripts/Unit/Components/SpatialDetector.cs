@@ -19,8 +19,8 @@ public class SpatialDetector : MonoBehaviour
 
   public UnityEvent<RaycastHit> OnHasObstacle;
   private Coroutine _intervalCoroutine;
+  private float _interval;
   private Collider _collider;
-  private Transform _transform;
   private Vector3 _forward;
 
   private RaycastHit RaycastObstacle(Vector3 origin, Vector3 direction)
@@ -29,50 +29,40 @@ public class SpatialDetector : MonoBehaviour
     Physics.RaycastNonAlloc(origin, direction, hitResults, distance);
 
     if (debugging)
-      Debug.DrawRay(origin, direction * distance, hitResults[0].collider == null ? Color.green : Color.red, 0.1f);
+    { Debug.DrawRay(origin, direction * distance, hitResults[0].collider == null ? Color.green : Color.red, 0.01f); }
 
     return hitResults[0];
   }
 
   public RaycastHit CheckObstacleForward() => RaycastObstacle(_collider.bounds.center, _forward);
 
-  public void StartCheckingObstacleOnInterval(UnityAction<RaycastHit> action, float customInterval, string msg = "default")
+  public void StartCheckingObstacleOnInterval(UnityAction<RaycastHit> action, float customInterval)
   {
-    if (msg != "default" && debugging)
-      Debug.Log($"{gameObject.name} :: {msg} :: start {_intervalCoroutine}");
-
-    _intervalCoroutine = StartCoroutine(CheckObstacleOnIntervalCoroutine(customInterval));
+    _forward = transform.forward;
+    _interval = customInterval;
+    _intervalCoroutine ??= StartCoroutine(CheckObstacleOnIntervalCoroutine());
 
     OnHasObstacle.AddListener(action);
-
-    if (_transform == null)
-    { _transform = transform; }
-
-    _forward = _transform.forward;
   }
 
-  public void StopCheckingObstacleOnInterval(UnityAction<RaycastHit> action, string msg = "default")
+  public void StopCheckingObstacleOnInterval(UnityAction<RaycastHit> action)
   {
     OnHasObstacle.RemoveListener(action);
-    StopCheckingObstacleOnInterval(msg);
   }
 
-  public void StopCheckingObstacleOnInterval(string msg = "default")
+  public void StopIntervalCoroutine()
   {
-    if (msg != "default" && debugging)
-      Debug.Log($"{gameObject.name} :: {msg} :: end {_intervalCoroutine}");
-
     if (_intervalCoroutine == null) return;
 
     StopCoroutine(_intervalCoroutine);
     _intervalCoroutine = null;
   }
 
-  private IEnumerator CheckObstacleOnIntervalCoroutine(float customInterval)
+  private IEnumerator CheckObstacleOnIntervalCoroutine()
   {
     while (true)
     {
-      yield return new WaitForSeconds(customInterval);
+      yield return new WaitForSecondsRealtime(_interval);
 
       var hit = CheckObstacleForward();
 
@@ -88,7 +78,7 @@ public class SpatialDetector : MonoBehaviour
   private void OnDestroy()
   {
     OnHasObstacle.RemoveAllListeners();
-    StopCheckingObstacleOnInterval();
+    StopIntervalCoroutine();
   }
 
   private void OnDrawGizmos()

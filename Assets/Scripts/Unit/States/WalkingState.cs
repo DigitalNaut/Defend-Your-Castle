@@ -31,7 +31,7 @@ public class WalkState : StateMachineBehaviour, IManaged
     _obstacleDetector ??= new ObstacleDetector(this);
   }
 
-  private void CheckForObstacle(RaycastHit hit)
+  private void HandleObstacleCheck(RaycastHit hit)
   {
     var obstacle = _obstacleDetector.CheckObstacle(hit);
 
@@ -58,11 +58,11 @@ public class WalkState : StateMachineBehaviour, IManaged
   {
     CacheComponents(animator);
 
-    SpatialDetector.StartCheckingObstacleOnInterval(CheckForObstacle, 0.1f, "WalkState");
+    SpatialDetector.StartCheckingObstacleOnInterval(HandleObstacleCheck, 0.3f);
   }
 
   public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
   {
-    SpatialDetector.StopCheckingObstacleOnInterval(CheckForObstacle, "WalkState");
+    SpatialDetector.StopCheckingObstacleOnInterval(HandleObstacleCheck);
   }
 }

@@ -20,7 +20,7 @@ public class DeadState : StateMachineBehaviour
   {
     CacheComponents(animator);
 
-    _spatialDetector.StopCheckingObstacleOnInterval("Stop coroutine DeadState");
+    _spatialDetector.StopIntervalCoroutine();
 
     _unitPropertiesManager.DestroyUnit();
   }

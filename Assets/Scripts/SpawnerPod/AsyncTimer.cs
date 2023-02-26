@@ -6,7 +6,6 @@ using System.Threading;
 
 public class AsyncTimer : MonoBehaviour
 {
-  #region Inspector
   [Tooltip("Shows debug logs.")]
   [SerializeField] bool debug = false;
   [Tooltip("The time in milliseconds before the timer ends.")]
@@ -17,15 +16,11 @@ public class AsyncTimer : MonoBehaviour
   [SerializeField] bool loop = false;
   [Tooltip("Invoked when the timer ends.")]
   [SerializeField] UnityEvent onTimerEnd;
-  #endregion
 
-  #region Fields
   private const int minTime = 100;
   private const int maxTime = int.MaxValue / 1000;
   private CancellationTokenSource cancellationTokenSource;
-  #endregion
 
-  #region Methods
   /// <summary>
   /// Starts the timer with the specified delay.
   /// </summary>
@@ -64,9 +59,7 @@ public class AsyncTimer : MonoBehaviour
   /// Stops the current timer.
   /// </summary>
   [Button] public void StopTimer() => cancellationTokenSource?.Cancel();
-  #endregion
 
-  #region Unity Methods
   private void Start()
   {
     if (startOnAwake)
@@ -79,5 +72,4 @@ public class AsyncTimer : MonoBehaviour
     onTimerEnd.RemoveAllListeners();
     onTimerEnd = null;
   }
-  #endregion
 }

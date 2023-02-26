@@ -8,8 +8,6 @@ using Unit.CombatSystem;
 [DisallowMultipleComponent]
 public class UnitPropertiesManager : MonoBehaviour
 {
-  [SerializeField] bool debugging = false;
-
   [Tooltip("The general properties of the Unit.")]
   [Expandable][SerializeField] UnitProperties unitProperties;
   [Tooltip("The combat stats of the Unit.")]
